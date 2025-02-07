@@ -1,9 +1,66 @@
 const express = require('express');
+// -- Delete Later --
+const gravatar = require('gravatar');
+// -- /Delete -------
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 
-// @route   GET api/user
-// @desc    Test Route
+const { check, validationResult } = require('express-validator');
+
+const User = require("../../models/User");
+
+// @route   POST api/user
+// @desc    Register user
 // @access  Public
-router.get('/', (req, res)=> res.send('User route'));
+router.post(
+    '/', 
+    [
+        check('name', 'Name is required').not().isEmpty(),
+        check('email', 'Please include a valid email address').isEmail(),
+        check('password', 'Please enter a password with 6 or more characters').isLength({min:6})
+    ], 
+    async (req, res)=> {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors: errors.array()});
+        }
+
+        const { name, email, password } = req.body;
+
+        try {
+            // See if user exists
+            let user = await User.findOne({ email });
+            if (user){
+                res.status(400).json({ errors: [ { msg: 'User already exists'} ]});
+            }
+            
+            // -----DELETE THIS LATER------
+            // Get users garavatar
+            const avatar = gravatar.url(email, {
+                s: '200',
+                r: 'pg',
+                d: 'mm'
+            })
+
+            user = new User({
+                name,
+                email,
+
+            })
+            // -----/DELETE----------------
+    
+            // Encrypt password
+    
+            // Return JWT
+        } catch(err) {
+            console.error(err.message);
+            res.status(500).send('Server error');
+        }
+
+
+        // console.log(req.body);
+        res.send('User route');
+    }
+);
 
 module.exports = router;
