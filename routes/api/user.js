@@ -24,7 +24,7 @@ router.post(
         if(!errors.isEmpty()){
             return res.status(400).json({errors: errors.array()});
         }
-
+        
         const { name, email, password } = req.body;
 
         try {
@@ -41,15 +41,20 @@ router.post(
                 r: 'pg',
                 d: 'mm'
             })
+            // -----/DELETE----------------
 
             user = new User({
                 name,
                 email,
+                avatar,
+                password
+            });
 
-            })
-            // -----/DELETE----------------
-    
             // Encrypt password
+            const salt = await bcrypt.genSalt(10);
+
+            user.password = await bcrypt.hash(password, salt);
+            await user.save();
     
             // Return JWT
         } catch(err) {
