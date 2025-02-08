@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://jacksonpearce85:vM2CadBOs1M8MhIu@cluster0.zp3tp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongoURI": "mongodb+srv://jacksonpearce85:vM2CadBOs1M8MhIu@cluster0.zp3tp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "jwtSecret": "mysecrettoken"
 }

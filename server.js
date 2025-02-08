@@ -19,3 +19,13 @@ app.use('/api/post', require('./routes/api/post'));
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
+
+// FOR LATER
+// Remove default.json in config and redo it with process.env for security purposes.  Will need to change password for access to mongodb.
+// Used in config/db.js
+// Used in routes/api/user.js
+// User in middleware/auth.js
+
+// Change JWT expirations
+// api/user.js
+// api/auth.js
