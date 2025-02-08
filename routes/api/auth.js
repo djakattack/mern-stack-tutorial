@@ -9,8 +9,14 @@ const { check, validationResult } = require('express-validator');
 // Models
 const User = require('../../models/User');
 
+// // @route   GET api/user
+// // @desc    Test Route
+// // @access  Public
+// router.get('/', (req, res)=> res.send('Auth route'));
+
+
 // @route   GET api/auth
-// @desc    Test Route
+// @desc    
 // @access  Public
 router.get(
     '/',
@@ -49,7 +55,14 @@ router.post(
             if (!user){
                 return res.status(400).json({ errors: [ { msg: 'Invalid credentials'} ]});
             }
-    
+
+            // Check if password matches the one stored in the database.
+            const isMatch = await bcrypt.compare(password, user.password);
+  
+            if (!isMatch){
+                return res.status(400).json({ errors: [ { msg: 'Invalid credentials'} ]});
+            }
+
             // Return JWT
             const payload = {
                 user: {
