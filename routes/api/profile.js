@@ -46,6 +46,7 @@ router.post(
     '/',
     [
         auth,
+        // Not behaving as expected in Postman
         [
             check('status', 'Status is required').not().isEmpty(),
             check('skills', 'Skills is required').not().isEmpty()    
@@ -53,12 +54,58 @@ router.post(
     ],
     async (req, res) => {
         const errors = validationResult(req);
-        console.log(`Req: ${req}`);
-        console.log(`Res: ${res}`);
-        console.log(`Errors: ${errors}`);
+        // console.log(`Req: ${req}`);
+        // console.log(`Res: ${res}`);
+        // console.log(`Errors: ${errors}`);
+
+        // Not behaving as expected in Postman
         if(!errors.isEmpty()){
             return res.status(400).json({ "errors": errors.array });
         }
+
+        // destructure the request
+        const {
+            company,
+            website,
+            location,
+            bio,
+            status,
+            githubusername,
+            skills,
+            youtube,
+            facebook,
+            twitter,
+            instagram,
+            linkedin,
+
+      } = req.body;
+
+      // Build profile object
+      const profileFields = {};
+      profileFields.user = req.user.id;
+
+      if(company) profileFields.company = company;
+      if(website) profileFields.website = website;
+      if(location) profileFields.location = location;
+      if(bio) profileFields.bio = bio;
+      if(status) profileFields.status = status;
+      if(githubusername) profileFields.githubusername = githubusername;
+      
+      // Convert comma-separated list to Array
+      if(skills) {
+        profileFields.skills = skills.split(',').map(skill => skill.trim());
+      }
+    
+      // Test to make sure skills is returned properly and that the route is working
+      console.log(skills);
+      res.send('Hello');
+
+      if(youtube) profileFields.youtube = youtube;
+      if(facebook) profileFields.facebook = facebook;
+      if(twitter) profileFields.twitter = twitter;
+      if(instagram) profileFields.instagram = instagram;
+      if(linkedin) profileFields.linkedin = linkedin;
+
 });
 
 module.exports = router;
