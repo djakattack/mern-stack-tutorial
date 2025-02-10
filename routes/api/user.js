@@ -1,3 +1,7 @@
+// TODO: Determine how to create different permissions.  One account would need to be able to assign things to the other users. 
+// A "trainer" account vs "client" account.
+// Client accounts cannot see the information of other accounts.  Trainer accounts can see everyone's info.
+
 const express = require('express');
 const router = express.Router();
 // -- Delete Later --
