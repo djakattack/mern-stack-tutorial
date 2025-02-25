@@ -129,4 +129,18 @@ router.post(
         }
 });
 
+// // @route   GET api/post
+// // @desc    Get all Pprofiles
+// // @access  Public
+
+router.get('/', async (req, res) => {
+    try {
+        // Adding gravatar nonsense.
+        const profiles = await Profile.find('user', ['name', 'avatar']);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
 module.exports = router;
