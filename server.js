@@ -29,6 +29,7 @@ app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
 // INSTANCES WHERE GRAVATAR IS USED
 // models/User.js
 // Do a complete audit again in case I missed any. Really not a fan of this feature.
+// routes/api/profile.js li: 27
 
 // CHANGE JWT EXPIRATIONS
 // api/user.js
