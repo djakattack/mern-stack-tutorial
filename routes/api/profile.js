@@ -19,8 +19,6 @@ const User = require('../../models/User');
 // // @access  Public
 // router.get('/', (req, res)=> res.send('post route'));
 
-module.exports = router;
-
 // @route   GET api/profile/me
 // @desc    GET current user's profile
 // @access  Private
@@ -100,15 +98,15 @@ router.get('/me', auth, async (req, res) => {
 
         // .split converts string into an array.  argument, ',', indicates delimeter.
         if(skills) {
-            console.log(123);
+            // console.log(123);
             profileFields.skills = skills.split(',').map(skill => skill.trim());
         }
         
         // Test to make sure skills is returned properly and that the route is working
-        console.log(`profielFields.skills: ${profileFields.skills}`);
-        console.log(profileFields.skills);
-        console.log(`profielFields: ${profileFields}`);
-        console.log(profileFields);
+        // console.log(`profielFields.skills: ${profileFields.skills}`);
+        // console.log(profileFields.skills);
+        // console.log(`profielFields: ${profileFields}`);
+        // console.log(profileFields);
 
         // Build Social object
         profileFields.social = {}
@@ -248,5 +246,24 @@ router.put(
 // @route   DELETE api/profile/experience
 // @desc    Delete profile experience
 // @access  Private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+    try {
+        // Get the user
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        // Get Remove Index
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+
+        profile.experience.splice(removeIndex, 1);
+        await profile.save();
+
+        res.send(profile);
+        
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');        
+    }
+})
+
 
 module.exports = router;
